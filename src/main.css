@@ -1,0 +1,913 @@
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Work+Sans:wght@400&display=swap');
+@font-face {
+    font-family: "Noto";
+    src: url("https://cdn.rkahn.dev/NotoColorEmoji.ttf") format("truetype");
+}
+
+html,
+body {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: #0B0B23;
+    font-size: 16px;
+}
+
+@keyframes orbit {
+    0% {
+        top: 50%;
+        left: 0%;
+        transform: scale(1) rotateY(0deg);
+        z-index: -2;
+    }
+    1% {
+        z-index: 2;
+    }
+    25% {
+        top: 50%;
+        left: 50%;
+        transform: rotate(0rad) scale(2);
+        z-index: 2;
+    }
+    50% {
+        top: 50%;
+        left: 100%;
+        transform: translateX(-100%) scale(1);
+        z-index: 2
+    }
+    51% {
+        transform: translate(-100%) rotateY(180deg);
+    }
+    75% {
+        top: 50%;
+        left: 50%;
+        transform: scale(0.5) rotateY(180deg);
+        z-index: -2;
+    }
+    99% {
+        transform: rotateY(180deg)
+    }
+    100% {
+        top: 50%;
+        left: 0%;
+        transform: scale(1) rotateY(0deg);
+        z-index: 2;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-100px);
+    }
+    50% {
+        transform: translateX(0)
+    }
+    75% {
+        transform: translateX(100px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes fly {
+    0% {
+        top: 0%;
+        left: 0%;
+        transform: rotate(10rad) scale(1);
+    }
+    25% {
+        top: 50%;
+        left: 50%;
+        transform: rotate(1rad) scale(1.1);
+    }
+    50% {
+        top: 40%;
+        left: 10%;
+        transform: rotate(0rad) scale(1);
+    }
+    75% {
+        top: 80%;
+        left: 70%;
+        transform: rotate(1rad) scale(1.3);
+    }
+    100% {
+        top: 0%;
+        left: 0%;
+        transform: rotate(10rad) scale(1);
+    }
+}
+
+@keyframes rover {
+    0% {
+        left: -10%;
+        transform: rotateY(0deg);
+    }
+    1% {
+        left: -10%;
+        transform: rotateY(180deg);
+    }
+    50% {
+        left: 10%;
+        transform: rotateY(180deg);
+    }
+    51% {
+        left: 10%;
+        transform: rotateY(0deg);
+    }
+    100% {
+        left: -10%;
+        transform: rotateY(0deg);
+    }
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateY(0deg);
+    }
+    1% {
+        transform: rotateY(180deg);
+    }
+    50% {
+        transform: rotateY(180deg);
+    }
+    51% {
+        transform: rotateY(0deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes open {
+    0% {
+        z-index: 3;
+        transform: rotateX(0deg);
+    }
+    40% {
+        z-index: 3;
+        transform: rotateX(80deg);
+    }
+    60% {
+        z-index: 1;
+        transform: rotateX(80deg);
+    }
+    100% {
+        z-index: 1;
+        transform: rotateX(0deg);
+    }
+}
+
+h1,
+h2,
+h3 {
+    font-family: "Major Mono Display";
+    font-weight: 300;
+    text-transform: lowercase;
+    text-align: center;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+    text-shadow: 1px 1px 0 #66666647;
+}
+
+blockquote {
+    font-family: "Work Sans";
+    position: relative;
+    padding: 0;
+    margin: 0;
+    padding: 0.5em;
+}
+
+blockquote:before,
+blockquote:after {
+    font-size: 2em;
+    font-family: "Major Mono Display";
+}
+
+blockquote:before {
+    position: absolute;
+    content: '"';
+    left: -0.25em;
+    top: -0.25em;
+}
+
+blockquote:after {
+    position: absolute;
+    content: '"';
+    bottom: -0.25em;
+    right: -0.25em;
+}
+
+p {
+    margin-top: 0;
+    font-family: "Work Sans";
+    font-size: 0.8em;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+main::before {
+    position: fixed;
+    display: block;
+    height: 100vh;
+    width: 100vw;
+    content: ' ';
+    z-index: 0;
+    background-color: #0B0B23;
+    background-image: url("https://cdn.rkahn.dev/stars.jpg");
+    background-size: 250px;
+    z-index: 0;
+}
+
+label {
+    font-size: 0.8rem;
+    font-family: 'Work Sans';
+    margin-right: 0.5em;
+    margin-left: 0.5em;
+    white-space: nowrap;
+}
+
+@keyframes comet-1 {
+    0% {
+        left: -10%;
+        top: -10%;
+        transform: rotateY(180deg);
+    }
+    5% {
+        left: 110%;
+        top: 50%;
+        transform: rotateY(180deg);
+    }
+    50% {
+        left: 110%;
+        top: 50%;
+        transform: rotateY(0deg);
+    }
+    60% {
+        top: 10%;
+        left: 110%;
+        transform: rotateY(0deg);
+    }
+    65% {
+        top: 60%;
+        left: -10%;
+        transform: rotateY(0deg);
+    }
+    90% {
+        top: 60%;
+        left: -10%;
+        transform: rotateY(180deg);
+    }
+}
+
+@keyframes comet-1 {
+    0% {
+        left: 20%;
+        top: -10%;
+        transform: rotateY(180deg);
+    }
+    5% {
+        left: 30%;
+        top: 110%;
+        transform: rotateY(180deg);
+    }
+    50% {
+        left: 30%;
+        top: 110%;
+        transform: rotateY(0deg);
+    }
+    60% {
+        top: 10%;
+        left: 200%;
+        transform: rotateY(0deg);
+    }
+    65% {
+        top: 110%;
+        left: -10%;
+        transform: rotateY(0deg);
+    }
+    90% {
+        top: 110%;
+        left: -10%;
+        transform: rotateY(180deg);
+    }
+}
+
+.sprite-container {
+    position: absolute;
+    display: none;
+}
+
+.comets {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+}
+
+.comets img {
+    top: -10%;
+    left: -10%;
+    position: absolute;
+    height: 20px;
+    filter: drop-shadow(0 0 2px orange);
+}
+
+.comets :first-child {
+    animation: comet-1 40000ms linear 1000ms infinite;
+}
+
+.comets :last-child {
+    animation: comet-2 40000ms linear 5000ms infinite;
+}
+
+.hero-outer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 750px;
+    height: 750px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+    background-image: radial-gradient(rgb(250, 188, 95) 0%, rgba(250, 188, 95, 0.5) 55%, rgba(250, 188, 95, 0) 60%)
+}
+
+.sun {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-height: 100%;
+    z-index: 0;
+}
+
+.hero-inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    color: #222;
+    width: 50%;
+    max-width: 325px;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.portrait {
+    border-radius: 50% 50% 10% 10%;
+    height: 175px;
+    filter: drop-shadow(0 0 10px #ffffffaa);
+    opacity: 0.9;
+}
+
+.hero-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.1em;
+    margin-top: 0.1em;
+    font-size: 2em;
+}
+
+.intro {
+    width: 90%;
+    max-width: 212.5px;
+    text-shadow: 0px 0px 2px #fff;
+}
+
+.social {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 1em;
+    width: 100%;
+    filter: drop-shadow(0 0 10px #ffffffaa);
+}
+
+.social img {
+    height: 3em;
+}
+
+.satellite {
+    position: absolute;
+    z-index: -1;
+    width: 3em;
+    animation-name: orbit;
+    animation-duration: 10000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    transform: translateY(-50%)
+}
+
+.astronauts {
+    padding-top: 140px;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.astronauts form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    padding: 11px 0;
+    flex-wrap: nowrap;
+    background-color: #D0D7DF;
+    border-radius: 2em;
+}
+
+.astronaut-controls {
+    box-sizing: border-box;
+    border-radius: 1em;
+    background-color: #000;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    perspective: 400px;
+    font-size: 0.8rem;
+}
+
+.astronauts form button,
+.astronauts form input,
+.astronauts form select {
+    box-sizing: border-box;
+    font-family: 'Work Sans';
+    background-color: #C3C9D1;
+    font-size: 0.8rem;
+    border: 2px solid grey;
+    margin: 0;
+}
+
+.astronauts form select {
+    box-sizing: border-box;
+    border-radius: 0 1em 1em 0;
+    height: 2rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    font-family: "Noto";
+}
+
+.astronauts form button {
+    box-sizing: border-box;
+    height: 2rem;
+    font-size: 0.8rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-right: none;
+    border-left: none;
+}
+
+.astronauts form button[disabled] {
+    animation: open 3s linear;
+    transform-origin: 50% 0;
+}
+
+.astronauts form input {
+    border-radius: 1em 0 0 1em;
+    height: 2rem;
+    box-sizing: border-box;
+}
+
+.astronauts .user-astronaut {
+    transition: all;
+    filter: drop-shadow(2px 2px 4px #000000AA);
+    transform-origin: center;
+    z-index: 2;
+    position: absolute;
+}
+
+.astronauts .user-astronaut svg {
+    height: 100px;
+    width: 30px;
+}
+
+.power {
+    font-family: 'Noto';
+    font-size: 200px;
+}
+
+.astronaut {
+    position: absolute;
+    z-index: 2;
+    animation-name: fly;
+    animation-duration: 30000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    transition: all 3s;
+    filter: drop-shadow(-2px 2px 4px #000000AA);
+    color: rgb(208, 215, 223);
+    transform-origin: 50%;
+    height: 30px;
+    width: 30px;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #eee;
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    margin-top: -200px;
+}
+
+.conquer {
+    height: 90px;
+    margin-top: 50px;
+}
+
+.info-heading {
+    position: relative;
+    color: #222;
+    padding-top: 235px;
+    background-image: url('https://cdn.rkahn.dev/space-shuttle.svg');
+    background-repeat: no-repeat;
+    background-position: center -150px;
+    width: 100%;
+    height: 600px;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-heading>span {
+    font-weight: bold;
+}
+
+.station {
+    height: 500px;
+    width: 500px;
+    z-index: 1;
+    padding-top: 100px;
+    padding-left: 150px;
+    filter: drop-shadow(-10px 10px 6px #000000AA);
+    transform: rotate(-10deg);
+}
+
+.station img {
+    width: 100%;
+    animation: float 40000ms linear infinite;
+}
+
+.info-heading span {
+    z-index: 1;
+}
+
+.info-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.info {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    background-size: 110%;
+    background-position: 0% 5%;
+    overflow: visible;
+    width: 600px;
+    height: 600px;
+    padding: 100px 150px;
+    z-index: 1;
+    text-align: center;
+    list-style: none;
+    font-size: 1.1em;
+}
+
+.info img {
+    display: block;
+    height: 4em;
+    width: 4em;
+    margin-bottom: 1em;
+}
+
+.info a {
+    color: #fff;
+}
+
+.info a:visited {
+    color: #fff;
+}
+
+.info h3 {
+    font-weight: bold;
+}
+
+.info:nth-of-type(1) {
+    background-image: url("https://cdn.rkahn.dev/blob1.svg");
+}
+
+.info:nth-of-type(2) {
+    background-image: url("https://cdn.rkahn.dev/blob2.svg");
+}
+
+.info:nth-of-type(3) {
+    background-image: url("https://cdn.rkahn.dev/blob3.svg");
+}
+
+.testimonials-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    max-width: 1200px;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.testimonials {
+    position: relative;
+    box-sizing: content-box;
+    height: 800px;
+    width: 1200px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.eclipse {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    left: calc(50% + 80px);
+    width: 800px;
+}
+
+.satellite-2-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.satellite-2 {
+    position: absolute;
+    left: 10px;
+    top: 45%;
+    width: 100px;
+    z-index: 0;
+    animation: spin 10000ms linear infinite;
+}
+
+.testimonials-title {
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.testimonials-title :first-child {
+    position: relative;
+    color: #000;
+    left: -1em;
+}
+
+.testimonials-title :last-child {
+    position: relative;
+    color: #fff;
+    left: 3em;
+}
+
+.testimonials-list {
+    box-sizing: border-box;
+    position: relative;
+    margin: 0;
+    padding: 0 0 0 130px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 800px;
+}
+
+.testimonial {
+    position: relative;
+    box-sizing: border-box;
+    text-align: center;
+    list-style: none;
+    z-index: 2;
+    color: #000;
+    text-shadow: 1px 1px 0 #66666647;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    margin-right: 40px;
+    max-width: 30%;
+    font-size: 0.9rem;
+}
+
+.testimonial a {
+    color: inherit;
+}
+
+.testimonial:nth-child(1) {
+    color: #000;
+}
+
+.testimonial:nth-child(2),
+.testimonial:nth-child(3) {
+    position: relative;
+    color: #fff;
+}
+
+.testimonial:last-child {
+    margin-right: 0;
+}
+
+.about-container {
+    position: relative;
+    max-width: 1200px;
+    width: 100%;
+    height: 1000px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.about-container h2 {
+    font-weight: bold;
+}
+
+.about {
+    z-index: 2;
+    padding: 1em;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 2em;
+    color: #fff;
+    font-size: 1.1em;
+    text-align: center;
+}
+
+.galaxy {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 1000px;
+    width: 1000px;
+    opacity: 0.6;
+}
+
+.at-work {
+    max-width: 100%;
+    max-height: 173px;
+    margin-bottom: 1em;
+    border-radius: 5em;
+}
+
+.videos-container {
+    position: relative;
+    z-index: 1;
+    max-height: 900px;
+    max-width: 900px;
+    width: 100%;
+    height: 100vw;
+}
+
+.nebula {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    opacity: 0.7;
+    z-index: 0;
+}
+
+.videos-title {
+    background-color: #ffffff88;
+    padding: 0.5em 0.5em 1em 0.5em;
+    margin-bottom: -0.5em;
+    z-index: 2;
+    font-weight: bold;
+}
+
+.videos {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    padding: 10%;
+}
+
+.videos video {
+    z-index: 2;
+    width: 100%;
+    height: 56.25%;
+}
+
+.footer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('https://cdn.rkahn.dev/mars.svg');
+    margin-top: 5em;
+    min-height: 20em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    width: 100%;
+    background-size: 140em;
+    background-repeat: no-repeat;
+    background-position: top center;
+}
+
+.footer-inner {
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-title {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.rover {
+    height: 4em;
+    position: relative;
+    animation: rover 10s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+.antenna {
+    position: relative;
+    left: 0.4em;
+    padding-top: 1em;
+    height: 4em;
+    animation: flip 8000ms linear infinite;
+    transform-origin: 40% 50%;
+}
+
+.copyright {
+    padding-top: 1em;
+}
