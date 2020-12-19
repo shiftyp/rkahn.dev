@@ -1,5 +1,5 @@
 import { render, h, Fragment } from 'preact';
-import { useRef, useEffect, useState } from 'preact/hooks';
+import { useRef, useEffect, useState, useCallback, useMemo } from 'preact/hooks';
 
 type AstronautData = {
     id: number,
@@ -16,7 +16,14 @@ const Astronaut = ({ id, color, power }: AstronautData) => {
     const [[x, y], updatePosition] = useState(['50%', '135px']);
 
     const move = () => {
-        updatePosition([randPercent(), randPercent()]);
+        let newX: string, newY: string;
+
+        do {
+            newX = randPercent();
+            newY = randPercent();
+        } while(x == newX && y == newY)
+
+        updatePosition([newX, newY]);
     };
 
     useEffect(() => {
@@ -24,7 +31,7 @@ const Astronaut = ({ id, color, power }: AstronautData) => {
     }, []);
 
     return (
-        <div 
+        <div
             class="user-astronaut"
             style={{
                 color,
@@ -63,6 +70,9 @@ const Astronaut = ({ id, color, power }: AstronautData) => {
 }
 
 const Astronauts = () => {
+    const slowFrameCount = useRef<number>(0);
+    const astronautCount = useRef<number>(50);
+    const lastFrameTiming = useRef<number | null>(null)
     const fetchTimeout = useRef<number | null>(null);
     const updateTimeout = useRef<number | null>(null);
     const color = useRef<HTMLInputElement>();
@@ -71,20 +81,41 @@ const Astronauts = () => {
     const [astronauts, setAstronauts] = useState<AstronautData[]>([]);
     const [open, setOpen] = useState(false);
 
-    const openHatch = () => {
+    const openHatch = useMemo(() => () => {
         setOpen(true);
         setTimeout(() => setOpen(false), 3000);
-    }
+    }, []);
+
+    const measureFramerate = useMemo(() => () => {
+        const maximumFrameTime = 1000 / 30; // 30 FPS
+        const t = performance.now();
+        if (lastFrameTiming.current !== null) {
+            const elapsed = t - lastFrameTiming.current;
+            const slow = elapsed < maximumFrameTime;
+
+            if (slow && slowFrameCount.current > 10) {
+                astronautCount.current--;
+                slowFrameCount.current = 0;
+                fetchAstronauts();
+            } else if (slow) {
+                slowFrameCount.current++;
+            }
+        }
+        lastFrameTiming.current = t;
+        requestAnimationFrame(measureFramerate);
+    }, []);
 
     useEffect(() => {
         fetchAstronauts();
+        requestAnimationFrame(measureFramerate)
     }, []);
 
-    const fetchAstronauts = async () => {
-        const resp = await fetch('/astronauts');
+    const fetchAstronauts = useMemo(() => async () => {
+        const resp = await fetch(`/astronauts?count=${astronautCount.current}`);
         const nextAstronauts = await resp.json();
-        if (nextAstronauts.some((astro) => !astronautsIndex.current.hasOwnProperty(astro.id))) {
+        if (nextAstronauts.length !== Object.keys(astronautsIndex.current).length || nextAstronauts.some((astro) => !astronautsIndex.current.hasOwnProperty(astro.id))) {
             openHatch();
+
             if (updateTimeout.current !== null) {
                 clearTimeout(updateTimeout.current);
             }
@@ -102,7 +133,7 @@ const Astronauts = () => {
         }
 
         fetchTimeout.current = setTimeout(fetchAstronauts, 10000);
-    }
+    }, []);
 
     const addAstronaut = async () => {
         const astronaut = {
