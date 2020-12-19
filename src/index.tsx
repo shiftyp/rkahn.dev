@@ -21,7 +21,7 @@ const Astronaut = ({ id, color, power }: AstronautData) => {
         do {
             newX = randPercent();
             newY = randPercent();
-        } while(x == newX && y == newY)
+        } while (x == newX && y == newY)
 
         updatePosition([newX, newY]);
     };
@@ -127,16 +127,18 @@ const Astronauts = () => {
             const elapsed = t - lastFrameTiming.current;
             const slow = elapsed < maximumFrameTime;
 
-            if (slow && slowFrameCount.current > 10) {
-                astronautCount.current--;
-                slowFrameCount.current = 0;
-                setAstronauts(astronauts.slice(-1));
-            } else if (slow) {
-                slowFrameCount.current++;
+            if (astronautCount.current > 1) {
+                if (slow && slowFrameCount.current > 10) {
+                    astronautCount.current--;
+                    slowFrameCount.current = 0;
+                    setAstronauts(astronauts.slice(-1));
+                } else if (slow) {
+                    slowFrameCount.current++;
+                }
+                lastFrameTiming.current = t;
+                requestAnimationFrame(measureFramerate);
             }
         }
-        lastFrameTiming.current = t;
-        requestAnimationFrame(measureFramerate);
     }, []);
 
     useEffect(() => {
