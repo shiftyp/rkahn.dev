@@ -83,7 +83,7 @@ const Astronauts = () => {
 
     const openHatch = useMemo(() => () => {
         setOpen(true);
-        setTimeout(() => setOpen(false), 2800);
+        setTimeout(() => setOpen(false), 3000);
     }, []);
 
     const fetchAstronauts = useMemo(() => async (doOpen = true) => {
