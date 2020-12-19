@@ -73,7 +73,8 @@ const Astronaut = ({ id, color, power }: AstronautData) => {
 const Astronauts = () => {
     const slowFrameCount = useRef<number>(0);
     const astronautCount = useRef<number>(50);
-    const lastFrameTiming = useRef<number | null>(null)
+    const lastFrameTiming = useRef<number | null>(null);
+    const measureFramerateFrame = useRef<number | null>(null);
     const fetching = useRef<boolean>(false);
     const fetchTimeout = useRef<number | null>(null);
     const updateTimeout = useRef<number | null>(null);
@@ -122,30 +123,38 @@ const Astronauts = () => {
     }, []);
 
     const measureFramerate = () => {
-        const maximumFrameTime = 1000 / 30; // 30 FPS
+        const maximumFrameTime = 1000 / 10; // 10 FPS
         const t = performance.now();
         if (lastFrameTiming.current !== null) {
             const elapsed = t - lastFrameTiming.current;
-            const slow = elapsed < maximumFrameTime;
+            const slow = elapsed > maximumFrameTime;
 
             if (astronauts.length > 1) {
-                if (slow && slowFrameCount.current > 5) {
+                if (slow && slowFrameCount.current > 10) {
                     astronautCount.current = astronauts.length - 1;
                     slowFrameCount.current = 0;
                     setAstronauts(astronauts.slice(-1));
                 } else if (slow) {
                     slowFrameCount.current++;
+                } else {
+                    slowFrameCount.current = Math.max(0, slowFrameCount.current - 1);
                 }
             }
         }
         lastFrameTiming.current = t;
-        requestAnimationFrame(measureFramerate);
+        measureFramerateFrame.current = requestAnimationFrame(measureFramerate);
     };
 
     useEffect(() => {
         fetchAstronauts();
-        requestAnimationFrame(measureFramerate)
     }, []);
+
+    useEffect(() => {
+        if (measureFramerateFrame.current !== null) {
+            cancelAnimationFrame(measureFramerateFrame.current);
+        }
+        measureFramerateFrame.current = requestAnimationFrame(measureFramerate);
+    }, [astronauts])
 
     const addAstronaut = async () => {
         const astronaut = {
