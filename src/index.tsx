@@ -75,6 +75,7 @@ const Astronauts = () => {
     const lastFrameTiming = useRef<number | null>(null)
     const fetchTimeout = useRef<number | null>(null);
     const updateTimeout = useRef<number | null>(null);
+    const hatchTimeout = useRef<number | null>(null);
     const color = useRef<HTMLInputElement>();
     const power = useRef<HTMLSelectElement>();
     const astronautsIndex = useRef<Record<string, null>>({})
@@ -82,8 +83,13 @@ const Astronauts = () => {
     const [open, setOpen] = useState(false);
 
     const openHatch = useMemo(() => () => {
-        setOpen(true);
-        setTimeout(() => setOpen(false), 3000);
+        if (hatchTimeout.current !== null) {
+            clearTimeout(hatchTimeout.current);
+        }
+        hatchTimeout.current = setTimeout(() => {
+            setOpen(true);
+            setTimeout(() => setOpen(false), 2800);
+        }, 200);
     }, []);
 
     const measureFramerate = useMemo(() => () => {
