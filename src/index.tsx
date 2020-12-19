@@ -121,29 +121,26 @@ const Astronauts = () => {
         fetchTimeout.current = setTimeout(fetchAstronauts, 10000);
     }, []);
 
-    const measureFramerate = useMemo(() => () => {
+    const measureFramerate = () => {
         const maximumFrameTime = 1000 / 30; // 30 FPS
         const t = performance.now();
         if (lastFrameTiming.current !== null) {
             const elapsed = t - lastFrameTiming.current;
             const slow = elapsed < maximumFrameTime;
 
-            if (astronautCount.current > 1) {
-                if (slow && slowFrameCount.current > 10) {
-                    astronautCount.current--;
+            if (astronauts.length > 1) {
+                if (slow && slowFrameCount.current > 5) {
+                    astronautCount.current = astronauts.length - 1;
                     slowFrameCount.current = 0;
                     setAstronauts(astronauts.slice(-1));
                 } else if (slow) {
                     slowFrameCount.current++;
                 }
-                lastFrameTiming.current = t;
-                requestAnimationFrame(measureFramerate);
             }
-        } else {
-            lastFrameTiming.current = t;
-            requestAnimationFrame(measureFramerate);
         }
-    }, []);
+        lastFrameTiming.current = t;
+        requestAnimationFrame(measureFramerate);
+    };
 
     useEffect(() => {
         fetchAstronauts();
