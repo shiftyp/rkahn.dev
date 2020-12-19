@@ -138,6 +138,9 @@ const Astronauts = () => {
                 lastFrameTiming.current = t;
                 requestAnimationFrame(measureFramerate);
             }
+        } else {
+            lastFrameTiming.current = t;
+            requestAnimationFrame(measureFramerate);
         }
     }, []);
 
