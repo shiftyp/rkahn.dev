@@ -127,10 +127,10 @@ const Astronauts = () => {
             const elapsed = t - lastFrameTiming.current;
             const slow = elapsed < maximumFrameTime;
 
-            if (slow && slowFrameCount.current > 10 && !fetching.current) {
+            if (slow && slowFrameCount.current > 10) {
                 astronautCount.current--;
                 slowFrameCount.current = 0;
-                fetchAstronauts(false);
+                setAstronauts(astronauts.slice(-1));
             } else if (slow) {
                 slowFrameCount.current++;
             }
