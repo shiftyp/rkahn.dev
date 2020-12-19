@@ -1,3 +1,4 @@
+import "preact/devtools";
 import { render, h, Fragment } from 'preact';
 import { useRef, useEffect, useState, useCallback, useMemo } from 'preact/hooks';
 
