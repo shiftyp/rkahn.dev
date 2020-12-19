@@ -73,6 +73,7 @@ const Astronauts = () => {
     const slowFrameCount = useRef<number>(0);
     const astronautCount = useRef<number>(50);
     const lastFrameTiming = useRef<number | null>(null)
+    const fetching = useRef<boolean>(false);
     const fetchTimeout = useRef<number | null>(null);
     const updateTimeout = useRef<number | null>(null);
     const color = useRef<HTMLInputElement>();
@@ -87,6 +88,10 @@ const Astronauts = () => {
     }, []);
 
     const fetchAstronauts = useMemo(() => async (doOpen = true) => {
+        if (fetching.current) {
+            return;
+        }
+        fetching.current = true;
         const resp = await fetch(`/astronauts?count=${astronautCount.current}`);
         const nextAstronauts = await resp.json();
         if (nextAstronauts.length !== Object.keys(astronautsIndex.current).length || nextAstronauts.some((astro) => !astronautsIndex.current.hasOwnProperty(astro.id))) {
@@ -103,13 +108,15 @@ const Astronauts = () => {
                 for (const { id } of nextAstronauts) {
                     astronautsIndex.current[id] = null;
                 }
-                setAstronauts(nextAstronauts)
+                fetching.current = false;
+                setAstronauts(nextAstronauts);
             }, 500);
+        } else {
+            fetching.current = false
         }
         if (fetchTimeout.current !== null) {
             clearTimeout(fetchTimeout.current);
         }
-
         fetchTimeout.current = setTimeout(fetchAstronauts, 10000);
     }, []);
 
@@ -120,7 +127,7 @@ const Astronauts = () => {
             const elapsed = t - lastFrameTiming.current;
             const slow = elapsed < maximumFrameTime;
 
-            if (slow && slowFrameCount.current > 10) {
+            if (slow && slowFrameCount.current > 10 && !fetching.current) {
                 astronautCount.current--;
                 slowFrameCount.current = 0;
                 fetchAstronauts(false);
