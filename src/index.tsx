@@ -157,6 +157,7 @@ const Astronauts = () => {
     useEffect(() => {
         if (measureFramerateFrame.current !== null) {
             cancelAnimationFrame(measureFramerateFrame.current);
+            lastFrameTiming.current = null;
         }
         measureFramerateFrame.current = requestAnimationFrame(measureFramerate);
     }, [astronauts])
