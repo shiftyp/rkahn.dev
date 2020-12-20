@@ -89,6 +89,16 @@ const Astronauts = () => {
         setTimeout(() => setOpen(false), 3000);
     }, []);
 
+    const updateAstronauts = (nextAstronauts: AstronautData[]) => {
+        astronautsIndex.current = {};
+
+        for (const { id } of nextAstronauts) {
+            astronautsIndex.current[id] = null;
+        }
+
+        setAstronauts(nextAstronauts);
+    }
+
     const fetchAstronauts = useMemo(() => async (doOpen = true) => {
         if (fetching.current) {
             return;
@@ -105,17 +115,12 @@ const Astronauts = () => {
                 clearTimeout(updateTimeout.current);
             }
             updateTimeout.current = setTimeout(() => {
-                astronautsIndex.current = {};
-
-                for (const { id } of nextAstronauts) {
-                    astronautsIndex.current[id] = null;
-                }
-                fetching.current = false;
-                setAstronauts(nextAstronauts);
+                updateAstronauts(nextAstronauts)
             }, 500);
-        } else {
-            fetching.current = false
         }
+
+        fetching.current = false;
+
         if (fetchTimeout.current !== null) {
             clearTimeout(fetchTimeout.current);
         }
@@ -133,7 +138,7 @@ const Astronauts = () => {
                 if (slow && slowFrameCount.current > 10) {
                     astronautCount.current = astronauts.length - 1;
                     slowFrameCount.current = 0;
-                    setAstronauts(astronauts.slice(-1));
+                    updateAstronauts(astronauts.slice(-1));
                 } else if (slow) {
                     slowFrameCount.current++;
                 } else {
