@@ -128,7 +128,7 @@ const Astronauts = () => {
     }, []);
 
     const measureFramerate = () => {
-        const maximumFrameTime = 1000 / 10; // 10 FPS
+        const maximumFrameTime = 1000 / 30; // 30 FPS
         const t = performance.now();
         if (lastFrameTiming.current !== null) {
             const elapsed = t - lastFrameTiming.current;
