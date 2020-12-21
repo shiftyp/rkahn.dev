@@ -139,6 +139,10 @@ const Astronauts = () => {
                     astronautCount.current = astronauts.length - 1;
                     slowFrameCount.current = 0;
                     updateAstronauts(astronauts.slice(0, -1));
+                    // @ts-ignore
+                    analytics.track('Slow Astronauts', {
+                        count: astronautCount.current,
+                    })
                 } else if (slow) {
                     slowFrameCount.current++;
                 } else {
