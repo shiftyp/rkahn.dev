@@ -523,6 +523,7 @@ label {
     transform-origin: center;
     z-index: 2;
     position: absolute;
+    pointer-events: none;
 }
 
 .astronauts .user-astronaut svg {
