@@ -138,7 +138,7 @@ const Astronauts = () => {
                 if (slow && slowFrameCount.current > 10) {
                     astronautCount.current = astronauts.length - 1;
                     slowFrameCount.current = 0;
-                    updateAstronauts(astronauts.slice(-1));
+                    updateAstronauts(astronauts.slice(0, -1));
                 } else if (slow) {
                     slowFrameCount.current++;
                 } else {
