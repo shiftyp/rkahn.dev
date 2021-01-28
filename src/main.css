@@ -248,6 +248,10 @@ label {
     white-space: nowrap;
 }
 
+.bigger {
+    font-size: 1.2em;
+}
+
 @keyframes comet-1 {
     0% {
         left: -10%;
@@ -358,8 +362,8 @@ label {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 750px;
-    height: 750px;
+    width: 1000px;
+    height: 1000px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
@@ -384,7 +388,7 @@ label {
     z-index: 1;
     color: #222;
     width: 50%;
-    max-width: 325px;
+    max-width: min(500px, 90vw);
     font-size: 1.1em;
     text-align: center;
 }
@@ -408,7 +412,7 @@ label {
 
 .intro {
     width: 90%;
-    max-width: 212.5px;
+    max-width: 300px;
     text-shadow: 0px 0px 2px #fff;
 }
 
@@ -889,9 +893,14 @@ label {
 }
 
 .contact-title {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bold;
 }
+
+.contact-info {
+    max-width: 300px;
+}
+
 
 .rover {
     height: 4em;
