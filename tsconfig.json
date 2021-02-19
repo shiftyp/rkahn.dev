@@ -1,9 +1,6 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "jsx": "react",
-    "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment",
     "esModuleInterop": true,
     "sourceMap": true,
     "allowJs": true,
